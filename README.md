@@ -208,8 +208,8 @@ If you use this book in your research or teaching, please cite:
 
 ```bibtex
 @book{qfi2026,
-  title     = {Quantum Field Imaging: A Unified Theory of Parallel Quantum Metrology},
-  author    = {[Author Name]},
+  title     = {Quantum Field Imaging: A Unified Theory of Parallel Quantum Metrology and inverse source reconstruction},
+  author    = {[Chern, Jyh-Long]},
   year      = {2026},
   publisher = {Open Source},
   url       = {https://github.com/[username]/quantum-field-imaging}
