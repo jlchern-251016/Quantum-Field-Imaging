@@ -1,95 +1,143 @@
 # Quantum Field Imaging
-## A Unified Theory of Parallel Quantum Metrology
+## A Unified Theory of Parallel Quantum Metrology and Inverse Source Reconstruction
 
 [![License: CC BY-NC-SA 4.0](https://img.shields.io/badge/License-CC%20BY--NC--SA%204.0-lightgrey.svg)](https://creativecommons.org/licenses/by-nc-sa/4.0/)
 [![LaTeX](https://img.shields.io/badge/Made%20with-LaTeX-1f425f.svg)](https://www.latex-project.org/)
 [![Python 3.8+](https://img.shields.io/badge/Python-3.8+-blue.svg)](https://www.python.org/)
+[![Book Version](https://img.shields.io/badge/Version-2.1-green.svg)]()
 
 ---
 
 ## Overview
 
-**Quantum Field Imaging (QFI)** establishes a new discipline at the intersection of classical optics and quantum sensing. This open-source textbook provides a rigorous, unified theoretical framework for parallel quantum metrology with source reconstruction capabilities—addressing critical throughput bottlenecks in semiconductor failure analysis and beyond.
+**Quantum Field Imaging (QFI)** establishes a new discipline at the intersection of classical optics and quantum sensing. This open-source textbook provides a rigorous, unified theoretical framework for parallel quantum metrology with inverse source reconstruction capabilities—addressing critical throughput bottlenecks in semiconductor failure analysis and beyond.
 
 ### The Central Problem
 
-Modern semiconductor metrology faces a fundamental challenge: achieving nanometer-scale spatial resolution while maintaining the throughput demands of production environments. Classical approaches hit physical limits. Single-point quantum sensors achieve remarkable sensitivity but sacrifice parallelism. **QFI bridges this gap.**
-
-### The Two-Layer Taxonomy
-
-This book introduces a critical distinction:
-
-| Layer | Approach | Output | Reconstruction |
-|-------|----------|--------|----------------|
-| **Quantum Field Metrology (QFM)** | Parallel quantum sensing | Field maps at sensor plane | None |
-| **Quantum Field Imaging (QFI)** | QFM + Physics-based inversion | Reconstructed source distribution | Forward model required |
-
-The key insight: **True imaging requires reconstruction.** A field map is not an image until you solve the inverse problem to recover the hidden source.
+Modern semiconductor metrology faces a fundamental challenge: achieving nanometer-scale spatial resolution while maintaining the throughput demands of production environments. Classical approaches hit physical limits. Single-point quantum sensors achieve remarkable sensitivity but sacrifice parallelism. **QFI bridges this gap through parallel measurement with physics-based source reconstruction.**
 
 ---
 
-## Key Features
+## The Two-Layer Taxonomy
 
-- **First-principles derivations** from quantum mechanics to system design
-- **Quantum Optical Transfer Function (Q-OTF)** formalism bridging classical optics and quantum sensing
-- **Operator stack framework** (S→G→F→M→D→R→Ŝ) for systematic system decomposition
-- **Multi-physics correlation** techniques achieving 2-5× improvement in reconstruction fidelity
-- **Quantitative design rules** for production-grade system specifications
-- **NV centers in diamond** as the exemplar platform (room-temperature, multi-physics, optical readout)
-- **Worked examples** with numerical calculations and Python simulations
-- **Problem sets** with solution hints for self-study and courses
+This book introduces a critical distinction that forms the conceptual backbone of the entire framework:
 
----
+| Layer | System Type | Output | Key Characteristic |
+|-------|-------------|--------|-------------------|
+| **Quantum Field Metrology (QFM)** | Parallel quantum sensing | Calibrated field map F(r) with uncertainty σ_F(r) | Measurement only |
+| **Quantum Field Imaging (QFI)** | QFM + Inverse reconstruction | Source estimate Ŝ(r) with uncertainty σ_S(r) | Forward model + Reconstruction required |
 
-## Book Structure
+### The QFI Gate Criterion
 
-The book is organized into **six parts** spanning **17 chapters**:
+A system qualifies as QFI **if and only if** it delivers:
+1. Source estimate Ŝ(r)
+2. Uncertainty bounds σ_S(r)
+3. Reconstruction residual ||D - M·G·Ŝ||
+4. Falsification test results
 
-### Part I: Foundations
-- Chapter 1: Introduction to Quantum Field Imaging
-- Chapter 2: Mathematical Preliminaries
-- Chapter 3: Quantum Sensing Fundamentals
-
-### Part II: Optical System Theory
-- Chapter 4: Classical Optical Transfer Functions
-- Chapter 5: Quantum Optical Transfer Function (Q-OTF)
-- Chapter 6: Coherence and Correlation in Quantum Fields
-
-### Part III: Quantum Sensor Physics
-- Chapter 7: NV Center Physics and Engineering
-- Chapter 8: Alternative Quantum Sensor Platforms
-- Chapter 9: Noise, Decoherence, and Sensitivity Limits
-
-### Part IV: System Design
-- Chapter 10: Optical Collection and Delivery Systems
-- Chapter 11: Parallel Readout Architectures
-- Chapter 12: System Integration and Calibration
-
-### Part V: Applications
-- Chapter 13: Semiconductor Failure Analysis
-- Chapter 14: Biomedical Imaging Applications
-- Chapter 15: Materials Characterization
-
-### Part VI: Advanced Topics
-- Chapter 16: Quantum-Enhanced Reconstruction Algorithms
-- Chapter 17: Future Directions and Emerging Platforms
+**Missing any of these → the system is QFM, not QFI.**
 
 ---
 
-## The QFI Figure of Merit
+## The Operator Stack Framework
 
-The book develops a comprehensive figure of merit framework:
+The book organizes QFI systems through a complete operator chain:
 
+```
+S → G → F → M → D → R → Ŝ
+```
+
+| Operator | Name | Function |
+|----------|------|----------|
+| **S** | Source | Hidden source distribution to be reconstructed |
+| **G** | Forward Model | Physics mapping source to field (Biot-Savart, heat diffusion, etc.) |
+| **F** | Field | Physical field at sensor plane |
+| **M** | Measurement | Optical + quantum system (collection, filtering, detection) |
+| **D** | Data | Raw measurement data |
+| **R** | Reconstruction | Inverse algorithm (regularization, optimization, ML) |
+| **Ŝ** | Estimate | Reconstructed source with uncertainty |
+
+---
+
+## Key Figures of Merit
+
+### QFM Figure of Merit (Measurement Throughput)
+```
+Q_FOM = (η_q / η_classical) × (N_parallel / t_acquisition) × Φ_multi
+```
+
+### QFI Imaging Figure of Merit (Complete System)
 ```
 Q_IFOM = Q_FOM × Γ_inv × Γ_mm
 ```
 
 Where:
-- **Q_FOM**: Quantum sensing figure of merit (sensitivity × bandwidth × parallelism)
-- **Γ_inv**: Reconstruction fidelity factor
-- **Γ_mm**: Model-mismatch penalty factor
+- **Γ_inv**: Reconstruction fidelity factor (0 < Γ_inv ≤ 1) — how well R recovers S
+- **Γ_mm**: Model-mismatch penalty (0 < Γ_mm ≤ 1) — accuracy of forward model G
+- **Φ_multi**: Multi-physics correlation factor — information gain from combined measurements
 
-This framework enables quantitative comparison across platforms and applications.
+---
+
+## Book Structure (v2.1)
+
+The book is organized into **six parts** spanning **17 chapters**:
+
+### Part I: Theoretical Foundations
+| Ch | Title | Operator Focus | Key Content |
+|----|-------|----------------|-------------|
+| 1 | The QFI Paradigm | All | QFM/QFI taxonomy, Q_IFOM framework, operator stack |
+| 2 | Fundamental Limits in QFI | M, R limits | Cramér-Rao bound, uncertainty quantification, multi-physics conditions |
+
+### Part II: Optical System Design
+| Ch | Title | Operator Focus | Key Content |
+|----|-------|----------------|-------------|
+| 3 | Illumination Engineering | M | Étendue, TIRF, uniformity theory, ε_illum specification |
+| 4 | Collection Optics | M | NA optimization, PSF engineering, ε_PSF specification |
+| 5 | Spectral Filtering | M | NV emission filtering, throughput optimization |
+| 6 | Quantum Optical Transfer Function | M | Q-OTF formalism, connection to Γ_inv |
+
+### Part III: Quantum Sensor Physics
+| Ch | Title | Operator Focus | Key Content |
+|----|-------|----------------|-------------|
+| 7 | NV Center Physics | M | Level structure, ODMR, η_q derivation, multi-physics basis |
+| 8 | Pulse Sequences | M | Ramsey, Hahn echo, dynamical decoupling, Φ_multi optimization |
+| 9 | Wide-Field ODMR | M | Camera integration, PRNU, ε_PRNU specification |
+
+### Part IV: Forward Models
+| Ch | Title | Operator Focus | Key Content |
+|----|-------|----------------|-------------|
+| 10 | Magnetic Forward Models | G | Biot-Savart kernel, G_B construction, conditioning analysis |
+| 11 | Multi-Physics Forward Models | G | Thermal, strain coupling, G_multi = [G_B; G_T; G_ε], conditioning theorem |
+
+### Part V: System Integration
+| Ch | Title | Operator Focus | Key Content |
+|----|-------|----------------|-------------|
+| 12 | QFI System Architecture | G + M | Probe station integration, calibration procedures, end-to-end Γ_mm |
+| 13 | Standoff Distance and Depth Sectioning | G | Standoff optimization, depth disambiguation, ε_standoff tolerance |
+
+### Part VI: Reconstruction and Applications
+| Ch | Title | Operator Focus | Key Content |
+|----|-------|----------------|-------------|
+| 14 | Inverse Problems and Reconstruction | R | Tikhonov, TV, L1 regularization, Γ_inv optimization, uncertainty propagation |
+| 15 | Current Density Reconstruction | R | B→J inversion, multi-physics J reconstruction, algorithm comparison |
+| 16 | Semiconductor FA Applications | All | IC fault localization, production validation, Q_IFOM benchmarks |
+| 17 | Future Directions | All | ML-based R operators, roadmap to Γ_inv → 1 |
+
+---
+
+## Error Budget Framework
+
+The book develops a systematic error budget approach linking component specifications to system performance:
+
+| Error Source | Symbol | Typical Spec | Affects |
+|--------------|--------|--------------|---------|
+| Standoff calibration | ε_standoff | < 5% | Γ_mm |
+| PSF accuracy | ε_PSF | < 5% | Γ_mm |
+| Illumination uniformity | ε_illum | < 3% | Γ_mm |
+| MW field uniformity | ε_MW | < 5% | Γ_mm |
+| Pixel response (PRNU) | ε_PRNU | < 2% | Γ_mm |
+
+**Model-mismatch penalty**: Γ_mm = ∏(1 - εᵢ²) ≈ 1 - Σεᵢ²
 
 ---
 
@@ -99,14 +147,16 @@ This framework enables quantitative comparison across platforms and applications
 quantum-field-imaging/
 ├── README.md
 ├── LICENSE
+├── CONTRIBUTING.md
+├── CHANGELOG.md
 ├── chapters/
-│   ├── ch01/
+│   ├── ch01_qfi_paradigm/
 │   │   ├── chapter_01.tex
 │   │   └── figures/
-│   ├── ch02/
-│   │   ├── chapter_02.tex
-│   │   └── figures/
-│   └── ...
+│   ├── ch02_fundamental_limits/
+│   ├── ch03_illumination/
+│   ├── ...
+│   └── ch17_future_directions/
 ├── simulations/
 │   ├── ch01_problems/
 │   ├── ch02_problems/
@@ -114,7 +164,7 @@ quantum-field-imaging/
 ├── style/
 │   ├── qfi_preamble.tex
 │   ├── qfi_commands.tex
-│   └── qfi_colors.tex
+│   └── qfi_style_guide.md
 ├── bibliography/
 │   └── qfi_references.bib
 └── build/
@@ -127,14 +177,13 @@ quantum-field-imaging/
 
 ### Prerequisites
 
-**For reading:**
-- PDF viewer
+**For reading**: PDF viewer
 
-**For compilation:**
+**For compilation**:
 - LaTeX distribution (TeX Live 2022+ or MiKTeX)
 - Python 3.8+ with NumPy, SciPy, Matplotlib
 
-### Compilation
+### Quick Start
 
 ```bash
 # Clone the repository
@@ -142,77 +191,82 @@ git clone https://github.com/[username]/quantum-field-imaging.git
 cd quantum-field-imaging
 
 # Compile a single chapter
-cd chapters/ch01
+cd chapters/ch01_qfi_paradigm
 pdflatex chapter_01.tex
 bibtex chapter_01
 pdflatex chapter_01.tex
 pdflatex chapter_01.tex
 
-# Or use the build script
-./build.sh all
-```
-
-### Running Simulations
-
-```bash
-cd simulations/ch01_problems
+# Run problem simulations
+cd ../../simulations/ch01_problems
 python problem_solutions.py
-# Outputs saved to timestamped directory
 ```
 
 ---
 
 ## Target Audience
 
-This book is designed for:
+| Audience | Background | Primary Focus |
+|----------|------------|---------------|
+| **Optical Engineers** | Classical optics, lens design | Q-OTF formalism, M operator design |
+| **Quantum Physicists** | QM, atomic physics | NV physics, Φ_multi, decoherence |
+| **FA Engineers** | Semiconductor testing | Chapters 13, 15, 16; production integration |
+| **Algorithm Developers** | Inverse problems, ML | Chapters 2, 14; R operator design |
+| **Graduate Students** | Physics/EE fundamentals | Complete theory with worked examples |
 
-| Audience | Background | Primary Interest |
-|----------|------------|------------------|
-| **Optical Engineers** | Classical optics, lens design | Q-OTF formalism, system integration |
-| **Quantum Physicists** | Quantum mechanics, atomic physics | Multi-physics sensing, decoherence |
-| **FA Engineers** | Semiconductor testing, failure analysis | Throughput, practical implementation |
-| **Graduate Students** | Physics or EE fundamentals | Complete theory and applications |
+---
+
+## Key Features
+
+- **First-principles derivations** with complete mathematical development
+- **Two-layer QFM/QFI taxonomy** distinguishing measurement from imaging
+- **Operator stack framework** for systematic system decomposition
+- **Quantitative design rules** with operational specifications
+- **Multi-physics correlation** achieving 2-5× improvement in Γ_inv
+- **Worked examples** with numerical calculations throughout
+- **Python simulations** for all chapters with reproducible results
+- **Problem sets** with solution hints for self-study
 
 ---
 
 ## Design Philosophy
 
-1. **Rigor without obscurity**: Complete derivations with physical intuition
-2. **Theory meets practice**: Every concept tied to measurable quantities
-3. **Operational definitions**: All metrics defined by measurement procedures
-4. **Quantitative design rules**: Concrete specifications, not vague guidelines
-5. **Open and reproducible**: All simulations included and documented
+1. **The field is not the image**: True imaging requires reconstruction
+2. **Operational definitions**: All metrics defined by measurement procedures
+3. **Quantitative specifications**: Concrete numbers, not vague guidelines
+4. **Complete derivations**: Rigor without obscurity
+5. **Open and reproducible**: All code included and documented
 
 ---
 
 ## Contributing
 
-Contributions are welcome! Please see [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
+Contributions welcome! See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
 
 ### Ways to Contribute
-- Report errors or typos via Issues
-- Suggest improvements to derivations
-- Add worked examples or problems
-- Improve simulation code
+- Report errors via Issues
+- Improve derivations or explanations
+- Add worked examples
+- Enhance simulation code
 - Translate chapters
 
-### Code Style
-- Python: PEP 8, ASCII-only encoding for Windows compatibility
+### Code Standards
+- Python: PEP 8, ASCII-only encoding (Windows compatible)
 - LaTeX: Follow `style/qfi_style_guide.md`
 
 ---
 
 ## Citation
 
-If you use this book in your research or teaching, please cite:
-
 ```bibtex
-@book{qfi2026,
-  title     = {Quantum Field Imaging: A Unified Theory of Parallel Quantum Metrology and inverse source reconstruction},
-  author    = {[Chern, Jyh-Long]},
+@book{chern2026qfi,
+  title     = {Quantum Field Imaging: A Unified Theory of Parallel 
+               Quantum Metrology and Inverse Source Reconstruction},
+  author    = {Chern, Jyh-Long},
   year      = {2026},
+  version   = {2.1},
   publisher = {Open Source},
-  url       = {https://github.com/jlchern-251016/quantum-field-imaging}
+  url       = {https://github.com//jlchern-251016/quantum-field-imaging}
 }
 ```
 
@@ -220,27 +274,18 @@ If you use this book in your research or teaching, please cite:
 
 ## License
 
-This work is licensed under a [Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License](https://creativecommons.org/licenses/by-nc-sa/4.0/).
-
-- **Attribution**: Give appropriate credit
-- **NonCommercial**: Not for commercial purposes without permission
-- **ShareAlike**: Derivatives under same license
-
-Simulation code is released under the [MIT License](LICENSE-CODE).
+- **Book content**: [CC BY-NC-SA 4.0](https://creativecommons.org/licenses/by-nc-sa/4.0/)
+- **Simulation code**: [MIT License](LICENSE-CODE)
 
 ---
 
 ## Acknowledgments
 
-This book builds upon decades of foundational work in quantum sensing, optical metrology, and inverse problems. Special thanks to the quantum diamond community and semiconductor metrology practitioners whose insights shaped this unified framework.
+This work builds upon foundational contributions in quantum sensing, optical metrology, inverse problems, and semiconductor failure analysis. The QFI framework synthesizes insights from the quantum diamond community, optical engineering practice, and production metrology requirements.
 
 ---
-
-## Contact
-
-- **Issues**: [GitHub Issues](https://github.com/[username]/quantum-field-imaging/issues)
-- **Discussions**: [GitHub Discussions](https://github.com/[username]/quantum-field-imaging/discussions)
-
 ---
 
-*"The field is not the image. The image emerges when we solve the inverse problem."*
+*"If your deliverable is only F(r), you are doing QFM. You are doing QFI if and only if you deliver Ŝ(r) with uncertainty bounds."*
+
+— The QFI Gate Criterion
