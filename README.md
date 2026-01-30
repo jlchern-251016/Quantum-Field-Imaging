@@ -121,7 +121,7 @@ The book is organized into **six parts** spanning **17 chapters**:
 | 14 | Inverse Problems and Reconstruction | R | Tikhonov, TV, L1 regularization, Γ_inv optimization, uncertainty propagation |
 | 15 | Current Density Reconstruction | R | B→J inversion, multi-physics J reconstruction, algorithm comparison |
 | 16 | Semiconductor FA Applications | All | IC fault localization, production validation, Q_IFOM benchmarks |
-| 17 | Future Directions | All | ML-based R operators, roadmap to Γ_inv → 1 |
+| 17 | Future Directions and Emerging Frontiers | All | ML-based R operators, roadmap to Γ_inv → 1 |
 
 ---
 
