@@ -212,7 +212,7 @@ If you use this book in your research or teaching, please cite:
   author    = {[Chern, Jyh-Long]},
   year      = {2026},
   publisher = {Open Source},
-  url       = {https://github.com/[username]/quantum-field-imaging}
+  url       = {https://github.com/jlchern-251016/quantum-field-imaging}
 }
 ```
 
